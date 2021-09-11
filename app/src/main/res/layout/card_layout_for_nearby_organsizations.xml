@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_marginBottom="5dp"
+    android:padding="10dp"
+    android:background="@drawable/background_for_nearby_search_card_view">
 
     <TextView
         android:id="@+id/shelterName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#30D5EA"
+        android:textColor="#000"
         android:fontFamily="casual"
         android:gravity="center"
         android:text="Shelter Name"
@@ -22,7 +24,7 @@
         android:id="@+id/titleBottomLine"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="#000"
+        android:background="#FF8C00"
         app:layout_constraintTop_toBottomOf="@+id/shelterName" />
 
 
@@ -30,26 +32,39 @@
         android:id="@+id/shelterPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="casual"
         android:gravity="center"
         android:paddingLeft="10dp"
         android:text="Phone Number"
-        android:textSize="10sp"
-        android:background="#D4E1E3"
-        app:layout_constraintTop_toBottomOf="@+id/titleBottomLine" />
+        android:textSize="15sp"
+        android:textColor="#000"
+        app:layout_constraintTop_toBottomOf="@+id/titleBottomLine"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
         android:id="@+id/shelterAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="casual"
+        android:textColor="#000"
         android:gravity="center"
         android:paddingLeft="10dp"
         android:text="Address"
-        android:textSize="10sp"
-        android:background="#D4E1E3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shelterPhone" />
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shelterPhone"/>
+
+    <Button
+        android:id="@+id/callButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="50dp"
+        android:background="@drawable/background_for_call_button"
+        android:text="CALL"
+        app:layout_constraintTop_toBottomOf="@id/shelterAdd"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
