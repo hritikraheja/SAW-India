@@ -41,6 +41,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class SearchNearbyFragment extends Fragment{
@@ -206,7 +207,7 @@ public class SearchNearbyFragment extends Fragment{
                     lat = Double.parseDouble(obj.getJSONObject("geometry").getJSONObject("location").getString("lat"));
                     lng = Double.parseDouble(obj.getJSONObject("geometry").getJSONObject("location").getString("lng"));
                     placeId = obj.getString("place_id");
-                    AnimalShelter animalShelter = new AnimalShelter(name,lat,lng,address,"Not Available");
+                    AnimalShelter animalShelter = new AnimalShelter(name,lat,lng,address,"Not Available",0);
                     animalSheltersNearLocation.add(animalShelter);
                     new GetPhoneNumberFromUrl().execute(placeId, String.valueOf(i));
                 }
@@ -261,6 +262,10 @@ public class SearchNearbyFragment extends Fragment{
                 e.printStackTrace();
             }
             animalSheltersNearLocation.get(pos).setPhoneNumber(phoneNumber);
+            if (phoneNumber.compareTo("Not Available") != 0){
+                animalSheltersNearLocation.get(pos).setPhoneNumberAvailableOrNot(1);
+            }
+            Collections.sort(animalSheltersNearLocation);
             recyclerView.setAdapter(new RecyclerViewAdapterForSearchNearbyFragment(animalSheltersNearLocation));
             for(AnimalShelter animalShelter : animalSheltersNearLocation){
                 double shelterLatitude = animalShelter.getLat();

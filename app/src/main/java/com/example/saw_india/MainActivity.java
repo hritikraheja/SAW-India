@@ -3,6 +3,7 @@ package com.example.saw_india;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FrameLayout frameLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,10 +66,14 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
                 switch (itemId){
                     case R.id.feedsButton:
-                        loadFragment(new FeedsFragment());
+                        if (bottomNavigationView.getSelectedItemId() != R.id.feedsButton) {
+                            loadFragment(new FeedsFragment());
+                        }
                         break;
                     case R.id.searchNearbyButton:
-                        loadFragment(new SearchNearbyFragment());
+                        if (bottomNavigationView.getSelectedItemId() != R.id.searchNearbyButton) {
+                            loadFragment(new SearchNearbyFragment());
+                        }
                         break;
                     case R.id.needHelpButton:
                         Toast.makeText(getApplicationContext(), "Need Help button clicked", Toast.LENGTH_SHORT).show();
@@ -79,6 +85,23 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                 }
                 return true;
+            }
+        });
+
+        swipeRefreshLayout = findViewById(R.id.refreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                int selectedItem = bottomNavigationView.getSelectedItemId();
+                switch (selectedItem){
+                    case R.id.feedsButton:
+                        loadFragment(new FeedsFragment());
+                        break;
+                    case R.id.searchNearbyButton:
+                        loadFragment(new SearchNearbyFragment());
+                        break;
+                }
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
