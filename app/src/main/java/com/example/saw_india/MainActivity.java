@@ -27,6 +27,12 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
 
     BottomNavigationView bottomNavigationView;
     FrameLayout frameLayout;
+    final Fragment feedsFragment = new FeedsFragment();
+    final Fragment searchNearbyFragment = new SearchNearbyFragment();
+    final Fragment needHelpFragment = new NeedHelpFragment();
+    final Fragment donateFragment = new DonationsFragment();
+    final FragmentManager fragmentManager = getFragmentManager();
+    Fragment active = feedsFragment;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,21 +69,29 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
+        fragmentManager.beginTransaction().add(R.id.frame, donateFragment, "4").hide(donateFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame, needHelpFragment, "3").hide(needHelpFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame, searchNearbyFragment, "2").hide(searchNearbyFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame, feedsFragment, "1").commit();
+
         frameLayout = findViewById(R.id.frame);
-        loadFragment(new FeedsFragment());
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                switch (itemId){
+                switch (item.getItemId()){
                     case R.id.feedsButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.feedsButton) {
-                            loadFragment(new FeedsFragment());
+                            fragmentManager.beginTransaction().hide(active).show(feedsFragment).commit();
+                            active = feedsFragment;
+                            return true;
                         }
                         break;
                     case R.id.searchNearbyButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.searchNearbyButton) {
-                            loadFragment(new SearchNearbyFragment());
+                            fragmentManager.beginTransaction().hide(active).show(searchNearbyFragment).commit();
+                            active = searchNearbyFragment;
+                            return true;
                         }
                         break;
                     case R.id.needHelpButton:
@@ -85,23 +99,17 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
                         break;
                     case R.id.donateButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.donateButton) {
-                            loadFragment(new DonationsFragment());
+                            fragmentManager.beginTransaction().hide(active).show(donateFragment).commit();
+                            active = donateFragment;
+                            return true;
                         }
                         break;
-                    default:
-                        return false;
                 }
-                return true;
+                return false;
             }
         });
     }
 
-    void loadFragment(Fragment fragment){
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frame, fragment);
-        ft.commit();
-    }
 
     void showDialog(Dialog dialog){dialog.show();}
 
