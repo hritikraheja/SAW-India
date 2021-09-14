@@ -265,8 +265,6 @@ public class SearchNearbyFragment extends Fragment{
             if (phoneNumber.compareTo("Not Available") != 0){
                 animalSheltersNearLocation.get(pos).setPhoneNumberAvailableOrNot(1);
             }
-            Collections.sort(animalSheltersNearLocation);
-            recyclerView.setAdapter(new RecyclerViewAdapterForSearchNearbyFragment(animalSheltersNearLocation));
             for(AnimalShelter animalShelter : animalSheltersNearLocation){
                 double shelterLatitude = animalShelter.getLat();
                 double shelterLongitude = animalShelter.getLng();
@@ -276,7 +274,8 @@ public class SearchNearbyFragment extends Fragment{
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
                 googleMap.animateCamera(CameraUpdateFactory.zoomTo(11.2f));
             }
+            Collections.sort(animalSheltersNearLocation);
+            recyclerView.setAdapter(new RecyclerViewAdapterForSearchNearbyFragment(animalSheltersNearLocation));
         }
     }
-
 }

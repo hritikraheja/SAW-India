@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Fragment;
 import android.os.AsyncTask;
@@ -23,11 +24,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class FeedsFragment extends Fragment {
     RecyclerView recyclerView;
     LinkedList<Video> allVideos;
+    SwipeRefreshLayout swipeRefreshLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +39,15 @@ public class FeedsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.feedsRecyclerView);
         new GetVideosFromDatabase().execute();
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        swipeRefreshLayout = view.findViewById(R.id.refreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Collections.shuffle(allVideos);
+                recyclerView.setAdapter(new RecyclerViewAdaptorForFeeds(allVideos));
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         return view;
     }
     class GetVideosFromDatabase extends AsyncTask<String, Integer, String> {
@@ -88,6 +100,7 @@ public class FeedsFragment extends Fragment {
                     Video video = new Video(videoLink,thumbnailLink,iconLink, title, organizationName, description);
                     allVideos.add(video);
                 }
+                Collections.shuffle(allVideos);
                 recyclerView.setAdapter(new RecyclerViewAdaptorForFeeds(allVideos));
             } catch (Exception e) {
                 e.printStackTrace();

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="SAW, INDIA"
         android:gravity="center"
-        android:textSize="50sp"
+        android:textSize="35sp"
         android:fontFamily="serif"
         android:textStyle="italic|bold"
         android:textColor="#03188A"

@@ -57,7 +57,7 @@ public class VideoPlayerActivity extends YouTubeBaseActivity implements YouTubeP
                 warningText.setVisibility(View.INVISIBLE);
                 warningTV.setVisibility(View.INVISIBLE);
                 proceedButton.setVisibility(View.INVISIBLE);
-                //ytPlayer.initialize(getResources().getString(R.string.YOUTUBE_API_KEY), VideoPlayerActivity.this);
+                ytPlayer.initialize(getResources().getString(R.string.YOUTUBE_API_KEY), VideoPlayerActivity.this);
             }
         });
 
