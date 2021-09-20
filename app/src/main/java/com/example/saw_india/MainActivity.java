@@ -25,14 +25,19 @@ import com.razorpay.PaymentResultListener;
 
 public class MainActivity extends AppCompatActivity implements PaymentResultListener {
 
-    BottomNavigationView bottomNavigationView;
+    static BottomNavigationView bottomNavigationView;
     FrameLayout frameLayout;
-    final Fragment feedsFragment = new FeedsFragment();
-    final Fragment searchNearbyFragment = new SearchNearbyFragment();
-    final Fragment needHelpFragment = new NeedHelpFragment();
-    final Fragment donateFragment = new DonationsFragment();
+    final static Fragment feedsFragment = new FeedsFragment();
+    final static Fragment searchNearbyFragment = new SearchNearbyFragment();
+    final static Fragment needHelpFragment = new NeedHelpFragment();
+    final static Fragment donateFragment = new DonationsFragment();
     final FragmentManager fragmentManager = getFragmentManager();
-    Fragment active = feedsFragment;
+    static Fragment active = feedsFragment;
+    Toolbar toolbar;
+    int isFeedsFragmentLoaded;
+    int b;
+    int c;
+    int d;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,14 +68,15 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottomNavigationBar);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("SAW INDIA");
         toolbar.setLogo(R.drawable.logo_for_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        System.gc();
 
         fragmentManager.beginTransaction().add(R.id.frame, donateFragment, "4").hide(donateFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.frame, needHelpFragment, "3").hide(needHelpFragment).commit();
+//        fragmentManager.beginTransaction().add(R.id.frame, needHelpFragment, "3").hide(needHelpFragment).commit();
         fragmentManager.beginTransaction().add(R.id.frame, searchNearbyFragment, "2").hide(searchNearbyFragment).commit();
         fragmentManager.beginTransaction().add(R.id.frame, feedsFragment, "1").commit();
 
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
                             active = searchNearbyFragment;
                             return true;
                         }
+                        Toast.makeText(getApplicationContext(), "Search Nearby button clicked", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.needHelpButton:
                         Toast.makeText(getApplicationContext(), "Need Help button clicked", Toast.LENGTH_SHORT).show();

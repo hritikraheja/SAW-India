@@ -2,11 +2,11 @@ package com.example.saw_india;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +47,8 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class SearchNearbyFragment extends Fragment {
+public class SearchNearbyFragment extends Fragment{
+
     LinkedList<AnimalShelter> animalSheltersNearLocation = new LinkedList<>();
     String phoneNumber;
     MapView mapView;
@@ -62,6 +63,7 @@ public class SearchNearbyFragment extends Fragment {
     ConstraintLayout loadingLayout;
     private GoogleMap googleMap;
     SwipeRefreshLayout swipeRefreshLayout;
+    int isPaused = 0;
 
     public double getMyLat() {
         return myLat;
@@ -79,6 +81,7 @@ public class SearchNearbyFragment extends Fragment {
         this.myLng = myLng;
     }
 
+    @SuppressLint("MissingPermission")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
@@ -88,9 +91,56 @@ public class SearchNearbyFragment extends Fragment {
             loadingLayout = view.findViewById(R.id.loadingLayout);
             mapView = view.findViewById(R.id.mapView);
             swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+            final GetJsonFromUrl getJsonFromUrl = new GetJsonFromUrl();
+            swipeRefreshLayout.setOnChildScrollUpCallback(new SwipeRefreshLayout.OnChildScrollUpCallback() {
+                @Override
+                public boolean canChildScrollUp(@NonNull SwipeRefreshLayout parent, @Nullable View child) {
+                    return mapView.getScrollY() != 0;
+                }
+            });
+            mapView.onCreate(null);
+            mapView.onResume();
+            recyclerView = view.findViewById(R.id.mapRecyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            Places.initialize(view.getContext(), getString(R.string.GOOGLE_PLACES_API_KEY));
+            final FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+            @SuppressLint("MissingPermission") final Task<Location> location = fusedLocationProviderClient.getLastLocation();
+            location.addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful()) {
+                        Location myLocation = task.getResult();
+                        if (myLocation==null){
+                            Toast.makeText(view.getContext(),"Unable To Fetch Your Last Known Location", Toast.LENGTH_SHORT).show();
+                        } else {
+                            setMyLat(myLocation.getLatitude());
+                            setMyLng(myLocation.getLongitude());
+                            mapView.getMapAsync(new OnMapReadyCallback() {
+                                @SuppressLint("MissingPermission")
+                                @Override
+                                public void onMapReady(@NonNull final GoogleMap gMap) {
+                                    googleMap = gMap;
+                                    googleMap.setMyLocationEnabled(true);
+                                    googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                                        @Override
+                                        public void onMapLoaded() {
+                                            LatLng myLocation = new LatLng(getMyLat(), getMyLng());
+                                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                                            googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    getJsonFromUrl.execute(String.valueOf(getMyLat()), String.valueOf(getMyLng()));
+                }
+            });
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    mapView.onCreate(null);
+                    mapView.onResume();
                     mapView.getMapAsync(new OnMapReadyCallback() {
                         @SuppressLint("MissingPermission")
                         @Override
@@ -102,77 +152,45 @@ public class SearchNearbyFragment extends Fragment {
                                 public void onMapLoaded() {
                                     LatLng myLocation = new LatLng(getMyLat(), getMyLng());
                                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-                                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(11.6f));
+                                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(11.8f));
                                 }
                             });
+                            if(animalSheltersNearLocation.size()!=0) {
+                                loadingLayout.setVisibility(View.VISIBLE);
+                                for (AnimalShelter animalShelter : animalSheltersNearLocation) {
+                                    double shelterLatitude = animalShelter.getLat();
+                                    double shelterLongitude = animalShelter.getLng();
+                                    LatLng location = new LatLng(shelterLatitude, shelterLongitude);
+                                    googleMap.addMarker(new MarkerOptions().position(location).title(animalShelter.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                                    LatLng myLocation = new LatLng(myLat, myLng);
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+                                }
+                                new CountDownTimer(2000,1000){
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        loadingLayout.setVisibility(View.INVISIBLE);
+                                    }
+                                }.start();
+                                swipeRefreshLayout.setRefreshing(false);
+                            } else {
+                                loadingLayout.setVisibility(View.VISIBLE);
+                                getJsonFromUrl.execute(String.valueOf(getMyLat()), String.valueOf(getMyLng()));
+                            }
                         }
                     });
-                    recyclerView.setAdapter(new RecyclerViewAdapterForSearchNearbyFragment(animalSheltersNearLocation));
-                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
-            mapView.onCreate(null);
-            mapView.onResume();
-            setRetainInstance(true);
-            recyclerView = view.findViewById(R.id.mapRecyclerView);
-            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            final GetJsonFromUrl getJsonFromUrl = new GetJsonFromUrl();
-            Places.initialize(view.getContext(), getString(R.string.GOOGLE_PLACES_API_KEY));
-            final FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-            @SuppressLint("MissingPermission") final Task<Location> location = fusedLocationProviderClient.getLastLocation();
-            location.addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    if (task.isSuccessful()) {
-                        Location myLocation = task.getResult();
-                        try {
-                            setMyLat(myLocation.getLatitude());
-                            setMyLng(myLocation.getLongitude());
-                        } catch (Exception e1) {
-                            setMyLat(26.847698895647113);
-                            setMyLng(80.947585162432);
-                        }
-                        int numberOfTries = 0;
-                        while (getMyLat() == 26.847698895647113 && getMyLng() == 80.947585162432) {
-                            try {
-                                setMyLat(myLocation.getLatitude());
-                                setMyLng(myLocation.getLongitude());
-                            } catch (Exception e1) {
-                                setMyLat(26.847698895647113);
-                                setMyLng(80.947585162432);
-                            }
-                            numberOfTries++;
-                            if (numberOfTries >= 5) {
-                                getFragmentManager().beginTransaction().replace(R.id.frame, new SearchNearbyFragment()).commit();
-                            }
-                        }
-                    }
-                    getJsonFromUrl.execute(String.valueOf(getMyLat()), String.valueOf(getMyLng()));
-//                Toast.makeText(view.getContext(), getJsonFromUrl.getStatus().toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            //Toast.makeText(MapFrag.this.getContext(), this.getMyLat() + ", " + this.getMyLng(), Toast.LENGTH_LONG).show();
             try {
                 MapsInitializer.initialize(getActivity().getApplicationContext());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mapView.getMapAsync(new OnMapReadyCallback() {
-                @SuppressLint("MissingPermission")
-                @Override
-                public void onMapReady(@NonNull final GoogleMap gMap) {
-                    googleMap = gMap;
-                    googleMap.setMyLocationEnabled(true);
-                    googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                        @Override
-                        public void onMapLoaded() {
-                            LatLng myLocation = new LatLng(getMyLat(), getMyLng());
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-                            googleMap.animateCamera(CameraUpdateFactory.zoomTo(11.8f));
-                        }
-                    });
-                }
-            });
         } else {
             super.onSaveInstanceState(savedInstanceState);
         }
@@ -182,6 +200,7 @@ public class SearchNearbyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mapView.onResume();
     }
 
     @Override
@@ -192,6 +211,7 @@ public class SearchNearbyFragment extends Fragment {
 
     @Override
     public void onPause() {
+        mapView.onPause();
         super.onPause();
     }
 
@@ -222,6 +242,8 @@ public class SearchNearbyFragment extends Fragment {
                         sb.append(temp);
                         sb.append("\n");
                     }
+                    reader.close();
+                    connection.disconnect();
                     result = sb.toString();
                 } else {
                     result = "ERROR: HTTP NOT OK";
@@ -277,6 +299,8 @@ public class SearchNearbyFragment extends Fragment {
                         sb.append(temp);
                         sb.append("\n");
                     }
+                    connection.disconnect();
+                    reader.close();
                     result = sb.toString();
                 } else {
                     result = "ERROR: HTTP NOT OK";
@@ -311,7 +335,7 @@ public class SearchNearbyFragment extends Fragment {
                 googleMap.addMarker(new MarkerOptions().position(location).title(animalShelter.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
                 LatLng myLocation = new LatLng(myLat, myLng);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-                googleMap.animateCamera(CameraUpdateFactory.zoomTo(11.2f));
+                googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
             }
             Collections.sort(animalSheltersNearLocation);
             recyclerView.setAdapter(new RecyclerViewAdapterForSearchNearbyFragment(animalSheltersNearLocation));

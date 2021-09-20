@@ -40,6 +40,7 @@ public class FeedsFragment extends Fragment {
         new GetVideosFromDatabase().execute();
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         swipeRefreshLayout = view.findViewById(R.id.refreshLayout);
+        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -102,6 +103,7 @@ public class FeedsFragment extends Fragment {
                 }
                 Collections.shuffle(allVideos);
                 recyclerView.setAdapter(new RecyclerViewAdaptorForFeeds(allVideos));
+                swipeRefreshLayout.setRefreshing(false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
