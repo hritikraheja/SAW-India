@@ -23,6 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.saw_india.modalClasses.AnimalShelter;
 import com.example.saw_india.modalClasses.RecyclerViewAdapterForSearchNearbyFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -63,7 +65,6 @@ public class SearchNearbyFragment extends Fragment{
     ConstraintLayout loadingLayout;
     private GoogleMap googleMap;
     SwipeRefreshLayout swipeRefreshLayout;
-    int isPaused = 0;
 
     public double getMyLat() {
         return myLat;
@@ -104,7 +105,7 @@ public class SearchNearbyFragment extends Fragment{
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
             Places.initialize(view.getContext(), getString(R.string.GOOGLE_PLACES_API_KEY));
             final FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-            @SuppressLint("MissingPermission") final Task<Location> location = fusedLocationProviderClient.getLastLocation();
+            @SuppressLint("MissingPermission") final Task<Location> location = fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, new CancellationTokenSource().getToken());
             location.addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {

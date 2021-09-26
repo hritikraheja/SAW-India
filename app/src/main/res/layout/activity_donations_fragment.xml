@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF8C00"
     tools:context=".DonationsFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -27,7 +26,6 @@
         app:sliderIndicatorSelectedColor="#5A5A5A"
         app:sliderIndicatorUnselectedColor="#FFF"
         app:sliderScrollTimeInSec="1"
-        android:background="#000C01"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -36,35 +34,291 @@
         android:id="@+id/header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="They Cannot Speak For Themselves, \nBut You Can Understand"
-        android:textColor="#FFF"
-        android:gravity="center"
-        android:textSize="28sp"
-        android:layout_marginTop="20dp"
+        android:text="Animals do speak, but only for those who can listen."
+        android:textColor="#000"
+        android:gravity="left"
+        android:textSize="20sp"
+        android:paddingTop="20dp"
         android:paddingHorizontal="30dp"
-        app:layout_constraintTop_toBottomOf="@id/sliderView"
-        android:background="#FF8C00"/>
+        app:layout_constraintTop_toBottomOf="@id/sliderView" />
 
-    <EditText
+    <TextView
+        android:id="@+id/header_t2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/amountEditText"
-        android:hint="AMOUNT IN ₹"
+        android:text="We know that you want to help them, but don't know how to. We are here to bridge the gap."
+        android:gravity="left"
+        android:textSize="16sp"
+        android:paddingHorizontal="30dp"
+        app:layout_constraintTop_toBottomOf="@id/header_title" />
+
+    <ImageView
+        android:id="@+id/silhoutte"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_animals_silhoutte"
+        app:layout_constraintTop_toBottomOf="@id/header_t2"/>
+
+    <TextView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintTop_toBottomOf="@id/silhoutte"/>
+
+    <TextView
+        android:id="@+id/t3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Things We Do"
+        android:layout_marginTop="10dp"
+        android:textSize="35sp"
+        android:textColor="#000"
         android:gravity="center"
-        android:layout_marginTop="100dp"
-        android:layout_marginHorizontal="80dp"
-        app:layout_constraintTop_toBottomOf="@id/header_title"/>
+        app:layout_constraintTop_toBottomOf="@id/line"/>
 
-    <Button
-        android:id="@+id/payButton"
+    <LinearLayout
+        android:id="@+id/points"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PAY"
-        android:background="@drawable/background_for_call_button"
-        android:layout_marginHorizontal="50dp"
-        app:layout_constraintTop_toBottomOf="@id/amountEditText"
+        app:layout_constraintTop_toBottomOf="@id/t3"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/point1"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/index1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="90dp"
+                android:textStyle="bold"
+                android:textColor="#F89B2A"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/indexTitle1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Keeping Humanity Alive"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/index1"
+                app:layout_constraintRight_toRightOf="@id/point1"/>
+
+            <TextView
+                android:id="@+id/indexDescription1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Strong people stand up for themselves, but stronger people stand up for others. We are facilitating those stronger people in doing so."
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintTop_toBottomOf="@id/indexTitle1"
+                app:layout_constraintLeft_toRightOf="@id/index1"
+                app:layout_constraintRight_toRightOf="@id/point1"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/point2"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/index2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="80sp"
+                android:textStyle="bold"
+                android:textColor="#F89B2A"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/indexTitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Raising Funds"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/index2"
+                app:layout_constraintRight_toRightOf="@id/point2"/>
+
+            <TextView
+                android:id="@+id/indexDescription2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Raising monetary funds for NGO's and organizations working for the same cause in the country."
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintTop_toBottomOf="@id/indexTitle2"
+                app:layout_constraintLeft_toRightOf="@id/index2"
+                app:layout_constraintRight_toRightOf="@id/point2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/point3"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/index3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="80sp"
+                android:textStyle="bold"
+                android:textColor="#F89B2A"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/indexTitle3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Bridging Gap Between Needy And Helpers"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/index3"
+                app:layout_constraintRight_toRightOf="@id/point3"/>
+
+            <TextView
+                android:id="@+id/indexDescription3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Thousands of strays die every year because of people being ignorant. We are trying to reduce that number."
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintTop_toBottomOf="@id/indexTitle3"
+                app:layout_constraintLeft_toRightOf="@id/index3"
+                app:layout_constraintRight_toRightOf="@id/point3"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/point4"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/index4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="4"
+                android:textStyle="bold"
+                android:textSize="80sp"
+                android:textColor="#F89B2A"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/indexTitle4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Making Single Platform For All Animal Welfare Organizations"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/index4"
+                app:layout_constraintRight_toRightOf="@id/point4"/>
+
+            <TextView
+                android:id="@+id/indexDescription4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Providing a single platform for all animal welfare organizations across the country."
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintTop_toBottomOf="@id/indexTitle4"
+                app:layout_constraintLeft_toRightOf="@id/index4"
+                app:layout_constraintRight_toRightOf="@id/point4"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/t4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WE NEED YOUR SUPPORT FOR"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="40dp"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/points"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <TextView
+        android:id="@+id/t5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVING LIVES AND BEYOND."
+        android:layout_marginHorizontal="60dp"
+        android:textSize="16sp"
+        android:textColor="#F89B2A"
+        app:layout_constraintTop_toBottomOf="@id/t4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_dogs_silhoulette"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="-70dp"
+        app:layout_constraintTop_toBottomOf="@id/t5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

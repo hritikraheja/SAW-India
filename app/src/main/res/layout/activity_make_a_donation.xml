@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F89B2A"
+    tools:context=".MakeADonationActivity">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAW INDIA"
+        android:gravity="center"
+        android:layout_marginTop="6dp"
+        android:textColor="#FFF"
+        android:textSize="35sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/form_background"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="NAME"
+            android:backgroundTint="#F89B2A"
+            android:inputType="textPersonName"
+            android:layout_marginTop="90dp"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/mobileNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#F89B2A"
+            android:hint="10 Digit MOBILE NUMBER"
+            android:inputType="phone"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:backgroundTint="#F89B2A"
+            android:layout_marginTop="10dp"
+            android:hint="EMAIL (OPTIONAL)"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/amountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="numberDecimal"
+            android:backgroundTint="#F89B2A"
+            android:hint="AMOUNT (₹)"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/amountButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp">
+
+            <Button
+                android:id="@+id/amountButton11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="₹ 11"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/amount_button_background"/>
+
+            <Button
+                android:id="@+id/amountButton21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="₹ 21"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/amount_button_background"/>
+
+            <Button
+                android:id="@+id/amountButton51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="₹ 51"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/amount_button_background"/>
+
+            <Button
+                android:id="@+id/amountButton101"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="₹ 101"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/amount_button_background"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/donateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:text="DONATE"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/fab_button_background"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/circularLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="13dp"
+        android:src="@drawable/final_logo_saw"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="-60dp"
+        android:background="@drawable/circular_logo"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/cow_silhoulette"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_cow_silhoutte"
+        android:background="#FFF"
+        app:layout_constraintTop_toBottomOf="@id/form"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
