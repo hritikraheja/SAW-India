@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "738089015795",
+    "project_id": "sawindia-f3cdd",
+    "storage_bucket": "sawindia-f3cdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738089015795:android:402065021d0e74204d1a86",
+        "android_client_info": {
+          "package_name": "com.example.saw_india"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738089015795-ldpbn61g078g0b0jsblpimp8v673addu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc1TAIXjFRKj98Y119LJg5dTpYGO-eKfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "738089015795-ldpbn61g078g0b0jsblpimp8v673addu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

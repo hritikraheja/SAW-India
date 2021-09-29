@@ -60,8 +60,8 @@ public class SearchNearbyFragment extends Fragment{
     double lng;
     String placeId;
     RecyclerView recyclerView;
-    double myLat;
-    double myLng;
+    public static double myLat;
+    public static double myLng;
     ConstraintLayout loadingLayout;
     private GoogleMap googleMap;
     SwipeRefreshLayout swipeRefreshLayout;

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.saw_india.modalClasses.BottomSheetDialog;
 
 import java.io.IOException;
 
@@ -46,6 +49,8 @@ public class NeedHelpFragment extends Fragment {
     EditText descriptionEditText;
     CheckBox checkBox;
     ImageView captureIcon;
+    FragmentManager fragmentManager;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Toast.makeText(getActivity().getApplicationContext(), requestCode ,Toast.LENGTH_SHORT).show();
@@ -100,7 +105,6 @@ public class NeedHelpFragment extends Fragment {
         descriptionEditText = view.findViewById(R.id.descriptionEditText);
         checkBox = view.findViewById(R.id.checkbox);
         captureIcon = view.findViewById(R.id.i1);
-
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,11 +143,13 @@ public class NeedHelpFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(), "Please Write Some Description About The Problem", Toast.LENGTH_SHORT).show();
                 } else if (!checkBox.isChecked()){
                     Toast.makeText(getActivity().getApplicationContext(), "Please Tick The Checkbox", Toast.LENGTH_SHORT).show();
-                }
-                else if (!TextUtils.isEmpty(email) &&(!Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
+                } else if (mobileNumber.length() != 10){
+                    Toast.makeText(getActivity().getApplicationContext(), "Please Enter A Valid 10-Digit Mobile Number", Toast.LENGTH_SHORT).show();
+                } else if (!TextUtils.isEmpty(email) &&(!Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
                         Toast.makeText(getActivity().getApplicationContext(), "Please Enter A Valid Email Address", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Everything Is Good", Toast.LENGTH_SHORT).show();
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+                    bottomSheetDialog.show(MainActivity.supportFragmentManager, "Tag");
                 }
             }
         });

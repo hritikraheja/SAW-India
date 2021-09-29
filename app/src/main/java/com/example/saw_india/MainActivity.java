@@ -1,22 +1,10 @@
 package com.example.saw_india;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.renderscript.RenderScript;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,19 +12,17 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.CancellationTokenSource;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
-
-    private static final int PLACE_PICKER_REQUEST_CODE = 3;
+public class MainActivity extends AppCompatActivity {
 
     Button makeDonationButton;
     static BottomNavigationView bottomNavigationView;
@@ -47,44 +33,26 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     final static Fragment donateFragment = new DonationsFragment();
     final FragmentManager fragmentManager = getFragmentManager();
     static Fragment active = feedsFragment;
+    static androidx.fragment.app.FragmentManager supportFragmentManager;
     Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.side_nav_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-        }
     }
 
     @SuppressLint("MissingPermission")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        switch (itemId){
+        switch (itemId) {
             case R.id.complaints:
-//                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,this);
-                CancellationTokenSource cts = new CancellationTokenSource();
-                FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-                Task<Location> location = fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, cts.getToken());
-                location.addOnCompleteListener(new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        Location location = task.getResult();
-                        if (location == null){
-                            Toast.makeText(getApplicationContext(), "Not Able To Get Location", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
                 break;
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -98,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        supportFragmentManager = getSupportFragmentManager();
         makeDonationButton = findViewById(R.id.makeADonationButton);
         makeDonationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,10 +77,56 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         });
         bottomNavigationView = findViewById(R.id.bottomNavigationBar);
         toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawerLayout);
+
+        navView = findViewById(R.id.navigation);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                switch (itemId){
+                    case R.id.navBarHomeButton:
+                        Toast.makeText(getApplicationContext(),"Home Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navBarRequestsButton:
+                        Toast.makeText(getApplicationContext(),"Requests Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navBarDonationsButton:
+                        Toast.makeText(getApplicationContext(),"Donations Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navBarAdoptButton:
+                        Toast.makeText(getApplicationContext(),"Adopt Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navBarLoginButton:
+                        Toast.makeText(getApplicationContext(),"Login Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navBarShareButton:
+                        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        sharingIntent.setType("text/plain");
+                        String shareSub = "Saw India is working to make a single platform for all animal welfare organisations across the whole country. We will be delighted if you our services a try. No stray animal will be left to die without human care.";
+                        String shareBody = "Download Now!!! \n " + shareSub;
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                        startActivity(Intent.createChooser(sharingIntent, "Share using"));
+                        return true;
+                    case R.id.navBarRateButton:
+                        Toast.makeText(getApplicationContext(),"This will lead you to PlayStore download when the app is published", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navBarDeveloperDetailsButton:
+                        Toast.makeText(getApplicationContext(),"Developer Details Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+                return false;
+            }
+        });
+        navView.setCheckedItem(R.id.navBarHomeButton);
+
         toolbar.setTitle("SAW INDIA");
         toolbar.setLogo(R.drawable.logo_for_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_icon);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setDisplayShowTitleEnabled(true);
         System.gc();
 
         fragmentManager.beginTransaction().add(R.id.frame, donateFragment, "4").hide(donateFragment).commit();
@@ -124,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.feedsButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.feedsButton) {
                             fragmentManager.beginTransaction().hide(active).show(feedsFragment).commit();
@@ -167,25 +182,5 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        Toast.makeText(this, location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Location", "Status");
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-        Log.d("Location", "Enabled");
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        Log.d("Location", "Disabled");
     }
 }

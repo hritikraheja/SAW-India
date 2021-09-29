@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:title="HOME"
+            android:icon="@drawable/ic_home"
+            android:id="@+id/navBarHomeButton"/>
+        <item android:title="REQUESTS"
+            android:id="@+id/navBarRequestsButton"
+            android:icon="@drawable/ic_requests"/>
+        <item android:title="DONATIONS"
+            android:icon="@drawable/ic_nav_bar_donations_icon"
+            android:id="@+id/navBarDonationsButton" />
+        <item android:title="ADOPT A STRAY"
+            android:icon="@drawable/ic_adopt_icon"
+            android:id="@+id/navBarAdoptButton"/>
+    </group>
+    <item android:title="PROFILE">
+    <menu>
+        <item android:id="@+id/navBarLoginButton"
+            android:title="LOGIN"
+            android:icon="@drawable/ic_login_icon"
+            />
+    </menu>
+    </item>
+    <item android:title="COMMUNICATE">
+        <menu>
+            <item android:id="@+id/navBarShareButton"
+                android:title="SHARE"
+                android:icon="@drawable/ic_share_icon"
+                />
+            <item android:id="@+id/navBarRateButton"
+                android:title="RATE"
+                android:icon="@drawable/ic_rate_icon"
+                />
+            <item android:id="@+id/navBarDeveloperDetailsButton"
+                android:title="DEVELOPER DETAILS"
+                android:icon="@drawable/ic_developer_details_icon"
+                />
+        </menu>
+    </item>
+</menu>
