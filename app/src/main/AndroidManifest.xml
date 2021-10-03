@@ -27,7 +27,9 @@
         android:roundIcon="@drawable/final_logo_saw"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginNameAndEmailActivity"></activity>
+        <activity android:name=".OTPAuthenticationActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MakeADonationActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

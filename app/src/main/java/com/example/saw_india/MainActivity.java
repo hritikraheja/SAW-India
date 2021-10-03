@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.saw_india.modalClasses.LogoutBottomSheetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -35,8 +38,17 @@ public class MainActivity extends AppCompatActivity {
     static Fragment active = feedsFragment;
     static androidx.fragment.app.FragmentManager supportFragmentManager;
     Toolbar toolbar;
-    DrawerLayout drawerLayout;
+    public static DrawerLayout drawerLayout;
     NavigationView navView;
+
+    public static MenuItem loginButton;
+    public static TextView loggedInUserNameTV;
+    public static TextView loggedInUserMobileNumberTV;
+    public static TextView getLoggedInUserEmailTV;
+
+    public static String loggedInUserName;
+    public static String loggedInUserMobileNumber;
+    public static String getLoggedInUserEmail;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,9 +70,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
+        MainActivity.loggedInUserName = sharedPreferences.getString("loggedInUserName", null);
+        MainActivity.loggedInUserMobileNumber = sharedPreferences.getString("loggedInUserMobileNumber", null);
+        MainActivity.getLoggedInUserEmail = sharedPreferences.getString("loggedInUserEmail", "");
+        if ((loggedInUserName != null)){
+            loggedInUserMobileNumberTV.setText(loggedInUserMobileNumber);
+            loggedInUserNameTV.setText(loggedInUserName);
+            if (getLoggedInUserEmail != null){
+                getLoggedInUserEmailTV.setText(getLoggedInUserEmail);
+            } else {
+                getLoggedInUserEmailTV.setText("");
+            }
+            loggedInUserNameTV.setTextSize(15);
+            MainActivity.loginButton.setTitle("LOGOUT");
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("loggedInUserName", MainActivity.loggedInUserName);
+        editor.putString("loggedInUserMobileNumber", MainActivity.loggedInUserMobileNumber);
+        editor.putString("loggedInUserEmail", MainActivity.getLoggedInUserEmail);
+        editor.apply();
+    }
+
+    @Override
     public void onBackPressed() {
         finishAffinity();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
 
         navView = findViewById(R.id.navigation);
+        loginButton = navView.getMenu().findItem(R.id.navBarLoginButton);
+        loggedInUserNameTV = navView.getHeaderView(0).findViewById(R.id.loginName);
+        loggedInUserMobileNumberTV  = navView.getHeaderView(0).findViewById(R.id.loginPhoneNumber);
+        getLoggedInUserEmailTV = navView.getHeaderView(0).findViewById(R.id.loginEmail);
+
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,7 +147,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Adopt Clicked", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.navBarLoginButton:
-                        Toast.makeText(getApplicationContext(),"Login Clicked", Toast.LENGTH_SHORT).show();
+                        if (MainActivity.loginButton.getTitle().toString().compareTo("LOGIN") == 0){
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        } else if (MainActivity.loginButton.getTitle().toString().compareTo("LOGOUT") == 0){
+                            LogoutBottomSheetDialog bottomSheetDialog = new LogoutBottomSheetDialog();
+                            bottomSheetDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
+                        }
                         return true;
                     case R.id.navBarShareButton:
                         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
