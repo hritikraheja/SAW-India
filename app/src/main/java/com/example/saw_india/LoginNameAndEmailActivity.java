@@ -19,9 +19,7 @@ import com.example.saw_india.modalClasses.User;
 import com.example.saw_india.modalClasses.UsersDatabaseHandler;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
-import org.w3c.dom.UserDataHandler;
 
 public class LoginNameAndEmailActivity extends AppCompatActivity {
 

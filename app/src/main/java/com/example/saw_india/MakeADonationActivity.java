@@ -1,5 +1,6 @@
 package com.example.saw_india;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -9,14 +10,24 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.saw_india.modalClasses.Donation;
+import com.example.saw_india.modalClasses.DonationsDatabaseHandler;
+import com.example.saw_india.modalClasses.LoginBottomSheetLayoutForDonationsPage;
+import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.gson.JsonObject;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 public class MakeADonationActivity extends AppCompatActivity implements PaymentResultListener {
 
@@ -30,6 +41,11 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
     Button amountButton21;
     Button amountButton51;
     Button amountButton101;
+
+    public static String name;
+    public static String mobileNumber;
+    public static String email;
+    String amountInString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +62,14 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
         amountButton21 = findViewById(R.id.amountButton21);
         amountButton51 = findViewById(R.id.amountButton51);
         amountButton101 = findViewById(R.id.amountButton101);
+
+        if (MainActivity.loggedInUserMobileNumber != null){
+            nameEditText.setText(MainActivity.loggedInUserName);
+            mobileNumberEditText.setText(MainActivity.loggedInUserMobileNumber);
+            if (MainActivity.getLoggedInUserEmail != null){
+                emailEditText.setText(MainActivity.getLoggedInUserEmail);
+            }
+        }
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,10 +110,10 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
             @Override
             public void onClick(View v) {
                 try {
-                    String name = nameEditText.getText().toString();
-                    String mobileNumber = mobileNumberEditText.getText().toString();
-                    String email = emailEditText.getText().toString();
-                    String amountInString = amountEditText.getText().toString();
+                    name = nameEditText.getText().toString();
+                    mobileNumber = mobileNumberEditText.getText().toString();
+                    email = emailEditText.getText().toString();
+                    amountInString = amountEditText.getText().toString();
                     int amount = Math.round(Float.parseFloat(amountInString) * 100);
                     Checkout checkout = new Checkout();
                     checkout.setKeyID("rzp_test_iifDyEQ5Tenyca");
@@ -120,7 +144,7 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
     void showDialog(Dialog dialog){dialog.show();}
 
     @Override
-    public void onPaymentSuccess(String s) {
+    public void onPaymentSuccess(final String paymentId) {
         try {
             final Dialog successDialog = new Dialog(MakeADonationActivity.this);
             successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -128,12 +152,32 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
             successDialog.setContentView(R.layout.layout_for_transaction_successful_dialog);
             successDialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
             Button continueButtonInSuccessDialog = successDialog.findViewById(R.id.continueButton);
+            DonationsDatabaseHandler donationsDatabaseHandler = new DonationsDatabaseHandler();
+            Donation currentDonation = new Donation(name,
+                    mobileNumber,
+                    email,
+                    Calendar.getInstance().getTime().toString(),
+                    amountInString,
+                    paymentId,"Success");
+            donationsDatabaseHandler.addDonation(currentDonation).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Not Added To Database.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            TextView transactionId = successDialog.findViewById(R.id.t3);
+            transactionId.setText("Payment Id : " + paymentId);
             continueButtonInSuccessDialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     successDialog.cancel();
-                    onBackPressed();
-                    Toast.makeText(getApplicationContext(), "Thanks For Your Help.\nYour money will reduce one's suffering.",Toast.LENGTH_LONG).show();
+                    if (MainActivity.loggedInUserMobileNumber != null) {
+                        Toast.makeText(getApplicationContext(), "Thanks For Your Help.\nYour money will reduce one's suffering.", Toast.LENGTH_LONG).show();
+                        onBackPressed();
+                    } else {
+                        LoginBottomSheetLayoutForDonationsPage loginBottomSheetLayoutForDonationsPage = new LoginBottomSheetLayoutForDonationsPage();
+                        loginBottomSheetLayoutForDonationsPage.show(getSupportFragmentManager(), "Modal Bottom Sheet");
+                    }
                 }
             });
             showDialog(successDialog);
@@ -143,7 +187,20 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
     }
 
     @Override
-    public void onPaymentError(int i, String s) {
+    public void onPaymentError(int i, String paymentId) {
+        DonationsDatabaseHandler donationsDatabaseHandler = new DonationsDatabaseHandler();
+        Donation currentDonation = new Donation(name,
+                mobileNumber,
+                email,
+                Calendar.getInstance().getTime().toString(),
+                amountInString,
+                "Not Generated","Failed");
+        donationsDatabaseHandler.addDonation(currentDonation).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Not Added To Database.", Toast.LENGTH_SHORT).show();
+            }
+        });
         Toast.makeText(getApplicationContext(), "Session Aborted", Toast.LENGTH_SHORT).show();
     }
 }

@@ -27,7 +27,8 @@
         android:roundIcon="@drawable/final_logo_saw"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".LoginNameAndEmailActivity"></activity>
+        <activity android:name=".DonationsHistoryActivity"></activity>
+        <activity android:name=".LoginNameAndEmailActivity" />
         <activity android:name=".OTPAuthenticationActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MakeADonationActivity" />

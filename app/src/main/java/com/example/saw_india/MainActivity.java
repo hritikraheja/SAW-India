@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     static androidx.fragment.app.FragmentManager supportFragmentManager;
     Toolbar toolbar;
     public static DrawerLayout drawerLayout;
-    NavigationView navView;
+    public static NavigationView navView;
 
     public static MenuItem loginButton;
     public static TextView loggedInUserNameTV;
@@ -134,14 +134,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 switch (itemId){
-                    case R.id.navBarHomeButton:
-                        Toast.makeText(getApplicationContext(),"Home Clicked", Toast.LENGTH_SHORT).show();
-                        return true;
                     case R.id.navBarRequestsButton:
                         Toast.makeText(getApplicationContext(),"Requests Clicked", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.navBarDonationsButton:
-                        Toast.makeText(getApplicationContext(),"Donations Clicked", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(MainActivity.this, DonationsHistoryActivity.class);
+                        startActivity(i);
                         return true;
                     case R.id.navBarAdoptButton:
                         Toast.makeText(getApplicationContext(),"Adopt Clicked", Toast.LENGTH_SHORT).show();
