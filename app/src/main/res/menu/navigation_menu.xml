@@ -7,10 +7,6 @@
     </group>
     <item android:title="PROFILE">
     <menu>
-        <item android:id="@+id/navBarLoginButton"
-            android:title="LOGIN"
-            android:icon="@drawable/ic_login_icon"
-            />
         <item android:title="REQUESTS"
             android:id="@+id/navBarRequestsButton"
             android:icon="@drawable/ic_requests"/>
@@ -20,6 +16,10 @@
         <item android:title="ADOPT A STRAY"
             android:icon="@drawable/ic_adopt_icon"
             android:id="@+id/navBarAdoptButton"/>
+        <item android:id="@+id/navBarLoginButton"
+            android:title="LOGIN"
+            android:icon="@drawable/ic_login_icon"
+            />
     </menu>
     </item>
     <item android:title="COMMUNICATE">

@@ -1,13 +1,8 @@
 package com.example.saw_india;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,41 +21,53 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.saw_india.modalClasses.BottomSheetDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.example.saw_india.modalClasses.BottomSheetDialog;
+import com.example.saw_india.modalClasses.LoginCredentials;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 
 import static android.Manifest.permission.CAMERA;
 
 public class NeedHelpFragment extends Fragment {
 
-    Bitmap pic;
-    private static final int CAMERA_REQUEST = 1;
+    private static final int CAMERA_REQUEST = 123;
     private static final int SELECT_IMAGE_REQUEST = 200;
-
-    ImageView image;
+    public static Bitmap pic;
+    public static EditText nameEditText;
+    public static EditText mobileNumberEditText;
+    public static EditText emailEditText;
+    public static EditText descriptionEditText;
+    public static ImageView image;
     ImageView selectButton;
     ImageView captureButton;
-    TextView captureText;
+    public static TextView captureText;
     Button submitButton;
-    EditText nameEditText;
-    EditText mobileNumberEditText;
-    EditText emailEditText;
-    EditText descriptionEditText;
     CheckBox checkBox;
-    ImageView captureIcon;
-    FragmentManager fragmentManager;
+    public static ImageView captureIcon;
+    Uri imageUri;
+
+    public static String complaineeName;
+    public static String complaineeMobileNumber;
+    public static String complaineeEmail;
+    public static String description;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Toast.makeText(getActivity().getApplicationContext(), requestCode ,Toast.LENGTH_SHORT).show();
-        switch (requestCode){
+        Toast.makeText(getActivity().getApplicationContext(), requestCode, Toast.LENGTH_SHORT).show();
+        switch (requestCode) {
             case 1:
-                if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, CAMERA_REQUEST);
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "You Cannot Capture Image Without Permission" ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "You Cannot Capture Image Without Permission", Toast.LENGTH_SHORT).show();
                 }
         }
     }
@@ -68,16 +75,21 @@ public class NeedHelpFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getActivity();
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK){
-                pic = (Bitmap) data.getExtras().get("data");
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            try {
+                pic = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), imageUri);
                 image.setImageBitmap(pic);
                 captureText.setVisibility(View.INVISIBLE);
                 captureIcon.setVisibility(View.INVISIBLE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        if(requestCode == SELECT_IMAGE_REQUEST){
+        if (requestCode == SELECT_IMAGE_REQUEST) {
             Uri selectedImageUri = data.getData();
-            if (selectedImageUri != null){
+            if (selectedImageUri != null) {
                 image.setImageURI(selectedImageUri);
                 try {
                     pic = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
@@ -105,12 +117,20 @@ public class NeedHelpFragment extends Fragment {
         descriptionEditText = view.findViewById(R.id.descriptionEditText);
         checkBox = view.findViewById(R.id.checkbox);
         captureIcon = view.findViewById(R.id.i1);
+        nameEditText.setText(LoginCredentials.name);
+        mobileNumberEditText.setText(LoginCredentials.mobileNumber);
+        emailEditText.setText(LoginCredentials.email);
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "MyPicture");
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
+                    imageUri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent,CAMERA_REQUEST);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent, CAMERA_REQUEST);
                 } else {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{CAMERA}, CAMERA_REQUEST);
                 }
@@ -129,24 +149,24 @@ public class NeedHelpFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = nameEditText.getText().toString();
-                String mobileNumber = mobileNumberEditText.getText().toString();
-                String email = emailEditText.getText().toString();
-                String description = descriptionEditText.getText().toString();
-                if (pic == null){
+                complaineeName = nameEditText.getText().toString();
+                complaineeMobileNumber = mobileNumberEditText.getText().toString();
+                complaineeEmail = emailEditText.getText().toString();
+                description = descriptionEditText.getText().toString();
+                if (pic == null) {
                     Toast.makeText(getActivity().getApplicationContext(), "Upload An Image First", Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(name)){
+                } else if (TextUtils.isEmpty(complaineeName)) {
                     Toast.makeText(getActivity().getApplicationContext(), "Name Field Cannot Be Empty", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(mobileNumber)){
+                } else if (TextUtils.isEmpty(complaineeMobileNumber)) {
                     Toast.makeText(getActivity().getApplicationContext(), "Mobile Number Field Cannot Be Empty", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(description)){
+                } else if (TextUtils.isEmpty(description)) {
                     Toast.makeText(getActivity().getApplicationContext(), "Please Write Some Description About The Problem", Toast.LENGTH_SHORT).show();
-                } else if (!checkBox.isChecked()){
+                } else if (!checkBox.isChecked()) {
                     Toast.makeText(getActivity().getApplicationContext(), "Please Tick The Checkbox", Toast.LENGTH_SHORT).show();
-                } else if (mobileNumber.length() != 10){
+                } else if (complaineeMobileNumber.length() != 10) {
                     Toast.makeText(getActivity().getApplicationContext(), "Please Enter A Valid 10-Digit Mobile Number", Toast.LENGTH_SHORT).show();
-                } else if (!TextUtils.isEmpty(email) &&(!Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Please Enter A Valid Email Address", Toast.LENGTH_SHORT).show();
+                } else if (!TextUtils.isEmpty(complaineeEmail) && (!Patterns.EMAIL_ADDRESS.matcher(complaineeEmail).matches())) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Please Enter A Valid Email Address", Toast.LENGTH_SHORT).show();
                 } else {
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                     bottomSheetDialog.show(MainActivity.supportFragmentManager, "Tag");

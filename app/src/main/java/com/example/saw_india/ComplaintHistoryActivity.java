@@ -1,30 +1,30 @@
 package com.example.saw_india;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.saw_india.modalClasses.Donation;
-import com.example.saw_india.modalClasses.DonationsDatabaseHandler;
+import com.example.saw_india.modalClasses.Complaint;
+import com.example.saw_india.modalClasses.ComplaintsDatabaseHandler;
 import com.example.saw_india.modalClasses.LoginCredentials;
-import com.example.saw_india.modalClasses.RecyclerViewAdapterForDonationsHistory;
+import com.example.saw_india.modalClasses.RecyclerViewAdapterForComplaintHistory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 import pl.droidsonroids.gif.GifImageView;
 
-public class DonationsHistoryActivity extends AppCompatActivity {
+public class ComplaintHistoryActivity extends AppCompatActivity {
 
     ImageView backButton;
     RecyclerView recyclerView;
@@ -35,19 +35,19 @@ public class DonationsHistoryActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        DonationsDatabaseHandler db = new DonationsDatabaseHandler();
-        final ArrayList<Donation> donations = new ArrayList<>();
+        ComplaintsDatabaseHandler db = new ComplaintsDatabaseHandler();
+        final LinkedList<Complaint> complaints = new LinkedList<>();
         db.getDatabaseByMobileNumber(LoginCredentials.mobileNumber).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Donation donation = dataSnapshot.getValue(Donation.class);
-                    donations.add(donation);
+                    Complaint complaint = dataSnapshot.getValue(Complaint.class);
+                    complaints.add(complaint);
                 }
                 if (count == 0) {
-                    Collections.reverse(donations);
-                    recyclerView.setAdapter(new RecyclerViewAdapterForDonationsHistory(donations));
-                    if (donations.size() != 0) {
+                    Collections.reverse(complaints);
+                    recyclerView.setAdapter(new RecyclerViewAdapterForComplaintHistory(complaints));
+                    if (complaints.size() != 0) {
                         loadingGif.setVisibility(View.INVISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
                     } else {
@@ -68,7 +68,7 @@ public class DonationsHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donations_history);
+        setContentView(R.layout.activity_complaint_history);
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,21 +79,21 @@ public class DonationsHistoryActivity extends AppCompatActivity {
         noRecordsFound = findViewById(R.id.noRecordsFound);
         loadingGif = findViewById(R.id.loadingGif);
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DonationsHistoryActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(ComplaintHistoryActivity.this));
         loadingGif.setVisibility(View.VISIBLE);
-        DonationsDatabaseHandler db = new DonationsDatabaseHandler();
-        final ArrayList<Donation> donations = new ArrayList<>();
+        ComplaintsDatabaseHandler db = new ComplaintsDatabaseHandler();
+        final LinkedList<Complaint> complaints = new LinkedList<>();
         db.getDatabaseByMobileNumber(LoginCredentials.mobileNumber).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Donation donation = dataSnapshot.getValue(Donation.class);
-                    donations.add(donation);
+                    Complaint complaint = dataSnapshot.getValue(Complaint.class);
+                    complaints.add(complaint);
                 }
                 if (count == 0) {
-                    Collections.reverse(donations);
-                    recyclerView.setAdapter(new RecyclerViewAdapterForDonationsHistory(donations));
-                    if (donations.size() != 0) {
+                    Collections.reverse(complaints);
+                    recyclerView.setAdapter(new RecyclerViewAdapterForComplaintHistory(complaints));
+                    if (complaints.size() != 0) {
                         loadingGif.setVisibility(View.INVISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
                     } else {
@@ -110,5 +110,4 @@ public class DonationsHistoryActivity extends AppCompatActivity {
             }
         });
     }
-
 }

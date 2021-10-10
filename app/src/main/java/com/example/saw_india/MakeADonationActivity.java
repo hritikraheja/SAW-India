@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.saw_india.modalClasses.Donation;
 import com.example.saw_india.modalClasses.DonationsDatabaseHandler;
-import com.example.saw_india.modalClasses.LoginBottomSheetLayoutForDonationsPage;
+import com.example.saw_india.modalClasses.LoginCredentials;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,11 +63,11 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
         amountButton51 = findViewById(R.id.amountButton51);
         amountButton101 = findViewById(R.id.amountButton101);
 
-        if (MainActivity.loggedInUserMobileNumber != null){
-            nameEditText.setText(MainActivity.loggedInUserName);
-            mobileNumberEditText.setText(MainActivity.loggedInUserMobileNumber);
-            if (MainActivity.getLoggedInUserEmail != null){
-                emailEditText.setText(MainActivity.getLoggedInUserEmail);
+        if (LoginCredentials.mobileNumber != null){
+            nameEditText.setText(LoginCredentials.name);
+            mobileNumberEditText.setText(LoginCredentials.mobileNumber);
+            if (LoginCredentials.email != null){
+                emailEditText.setText(LoginCredentials.email);
             }
         }
 
@@ -171,13 +171,8 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
                 @Override
                 public void onClick(View v) {
                     successDialog.cancel();
-                    if (MainActivity.loggedInUserMobileNumber != null) {
-                        Toast.makeText(getApplicationContext(), "Thanks For Your Help.\nYour money will reduce one's suffering.", Toast.LENGTH_LONG).show();
-                        onBackPressed();
-                    } else {
-                        LoginBottomSheetLayoutForDonationsPage loginBottomSheetLayoutForDonationsPage = new LoginBottomSheetLayoutForDonationsPage();
-                        loginBottomSheetLayoutForDonationsPage.show(getSupportFragmentManager(), "Modal Bottom Sheet");
-                    }
+                    Toast.makeText(getApplicationContext(), "Thanks For Your Help.\nYour money will reduce one's suffering.", Toast.LENGTH_LONG).show();
+                    onBackPressed();
                 }
             });
             showDialog(successDialog);

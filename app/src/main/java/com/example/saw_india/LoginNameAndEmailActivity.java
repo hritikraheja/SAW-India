@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.saw_india.modalClasses.LoginCredentials;
 import com.example.saw_india.modalClasses.User;
 import com.example.saw_india.modalClasses.UsersDatabaseHandler;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,6 +28,11 @@ public class LoginNameAndEmailActivity extends AppCompatActivity {
     EditText nameEditText;
     EditText emailEditText;
     Button registerButton;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +70,17 @@ public class LoginNameAndEmailActivity extends AppCompatActivity {
                     databaseHandler.addUser(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            MainActivity.loggedInUserName = name;
-                            MainActivity.loggedInUserMobileNumber = mobileNumber;
-                            MainActivity.getLoggedInUserEmail = finalEmail;
-                            MainActivity.loggedInUserNameTV.setText(name);
-                            MainActivity.loggedInUserMobileNumberTV.setText(mobileNumber);
-                            if (finalEmail != null){
-                                MainActivity.getLoggedInUserEmailTV.setText(finalEmail);
-                            } else {
-                                MainActivity.getLoggedInUserEmailTV.setText("");
-                            }
-                            MainActivity.loggedInUserNameTV.setTextSize(15);
+                            LoginCredentials.name = name;
+                            LoginCredentials.mobileNumber = mobileNumber;
+                            LoginCredentials.email = finalEmail;
                             SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("loggedInUserName", MainActivity.loggedInUserName);
-                            editor.putString("loggedInUserMobileNumber", MainActivity.loggedInUserMobileNumber);
-                            editor.putString("loggedInUserEmail", MainActivity.getLoggedInUserEmail);
+                            editor.putString("loggedInUserName", LoginCredentials.name);
+                            editor.putString("loggedInUserMobileNumber", LoginCredentials.mobileNumber);
+                            editor.putString("loggedInUserEmail", LoginCredentials.email);
                             editor.apply();
-                            MainActivity.drawerLayout.closeDrawer(GravityCompat.START);
+                            Intent i = new Intent(LoginNameAndEmailActivity.this, MainActivity.class);
+                            startActivity(i);
                             Toast.makeText(getApplicationContext(), "Logged in successfully.", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {

@@ -11,4 +11,10 @@
         <item name="android:windowEnterAnimation">@anim/blink</item>
     </style>
 
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#F89B2A</item>
+        <item name="android:textColorPrimary">#F89B2A</item>
+        <item name="android:background">#FFF</item>
+    </style>
+
 </resources>

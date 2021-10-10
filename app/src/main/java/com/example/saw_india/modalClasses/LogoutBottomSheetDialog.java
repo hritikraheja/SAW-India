@@ -1,5 +1,6 @@
 package com.example.saw_india.modalClasses;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 
+import com.example.saw_india.LoginActivity;
 import com.example.saw_india.MainActivity;
 import com.example.saw_india.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -38,14 +40,9 @@ public class LogoutBottomSheetDialog extends BottomSheetDialogFragment {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.loginButton.setTitle("LOGIN");
-                MainActivity.loggedInUserNameTV.setText("SAW INDIA");
-                MainActivity.loggedInUserNameTV.setTextSize(20);
-                MainActivity.loggedInUserMobileNumberTV.setText("");
-                MainActivity.getLoggedInUserEmailTV.setText("");
-                MainActivity.getLoggedInUserEmail = null;
-                MainActivity.loggedInUserMobileNumber = null;
-                MainActivity.loggedInUserName = null;
+                LoginCredentials.name = null;
+                LoginCredentials.mobileNumber = null;
+                LoginCredentials.email = null;
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginDetails", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("loggedInUserName", null);
@@ -53,7 +50,9 @@ public class LogoutBottomSheetDialog extends BottomSheetDialogFragment {
                 editor.putString("loggedInUserEmail", null);
                 editor.apply();
                 dismiss();
-                MainActivity.drawerLayout.closeDrawer(GravityCompat.START);
+                Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
                 Toast.makeText(getActivity().getApplicationContext(), "Logged out successfully.", Toast.LENGTH_SHORT).show();
             }
         });

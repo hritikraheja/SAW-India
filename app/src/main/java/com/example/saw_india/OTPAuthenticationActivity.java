@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 
+import com.example.saw_india.modalClasses.LoginCredentials;
 import com.example.saw_india.modalClasses.User;
 import com.example.saw_india.modalClasses.UsersDatabaseHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +51,12 @@ public class OTPAuthenticationActivity extends AppCompatActivity {
     private String verificationId;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack;
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.signOut();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,24 +193,17 @@ public class OTPAuthenticationActivity extends AppCompatActivity {
                                         i.putExtra("countryCode", countryCode);
                                         startActivity(i);
                                     } else {
-                                        MainActivity.loggedInUserName = a.get(0).getName();
-                                        MainActivity.loggedInUserMobileNumber = a.get(0).getMobileNumber();
-                                        MainActivity.getLoggedInUserEmail = a.get(0).getEmail();
-                                        MainActivity.loggedInUserNameTV.setText(a.get(0).getName());
-                                        MainActivity.loggedInUserMobileNumberTV.setText(a.get(0).getMobileNumber());
-                                        if (a.get(0).getEmail() != null){
-                                            MainActivity.getLoggedInUserEmailTV.setText(a.get(0).getEmail());
-                                        } else {
-                                            MainActivity.getLoggedInUserEmailTV.setText("");
-                                        }
-                                        MainActivity.loggedInUserNameTV.setTextSize(15);
+                                        LoginCredentials.name = a.get(0).getName();
+                                        LoginCredentials.mobileNumber = a.get(0).getMobileNumber();
+                                        LoginCredentials.email = a.get(0).getEmail();
                                         SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("loggedInUserName", MainActivity.loggedInUserName);
-                                        editor.putString("loggedInUserMobileNumber", MainActivity.loggedInUserMobileNumber);
-                                        editor.putString("loggedInUserEmail", MainActivity.getLoggedInUserEmail);
+                                        editor.putString("loggedInUserName", LoginCredentials.name);
+                                        editor.putString("loggedInUserMobileNumber", LoginCredentials.mobileNumber);
+                                        editor.putString("loggedInUserEmail", LoginCredentials.email);
                                         editor.apply();
-                                        MainActivity.drawerLayout.closeDrawer(GravityCompat.START);
+                                        Intent i = new Intent(OTPAuthenticationActivity.this, MainActivity.class);
+                                        startActivity(i);
                                         Toast.makeText(getApplicationContext(), "Logged in successfully.", Toast.LENGTH_SHORT).show();
                                     }
                                     finish();

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.hbb20.CountryCodePicker;
 
 public class LoginActivity extends AppCompatActivity {
@@ -19,6 +20,11 @@ public class LoginActivity extends AppCompatActivity {
     ImageView backButton;
     EditText phoneNumberEditText;
     Button nextButton;
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("mobileNumber", mobileNumber);
                     intent.putExtra("countryCode", countryCode);
                     startActivity(intent);
-                    finish();
                 }
             }
         });

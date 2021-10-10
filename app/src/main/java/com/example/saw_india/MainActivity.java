@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.saw_india.modalClasses.LoginCredentials;
 import com.example.saw_india.modalClasses.LogoutBottomSheetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -46,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
     public static TextView loggedInUserMobileNumberTV;
     public static TextView getLoggedInUserEmailTV;
 
-    public static String loggedInUserName;
-    public static String loggedInUserMobileNumber;
-    public static String getLoggedInUserEmail;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -73,14 +70,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
-        MainActivity.loggedInUserName = sharedPreferences.getString("loggedInUserName", null);
-        MainActivity.loggedInUserMobileNumber = sharedPreferences.getString("loggedInUserMobileNumber", null);
-        MainActivity.getLoggedInUserEmail = sharedPreferences.getString("loggedInUserEmail", "");
-        if ((loggedInUserName != null)){
-            loggedInUserMobileNumberTV.setText(loggedInUserMobileNumber);
-            loggedInUserNameTV.setText(loggedInUserName);
-            if (getLoggedInUserEmail != null){
-                getLoggedInUserEmailTV.setText(getLoggedInUserEmail);
+        LoginCredentials.name = sharedPreferences.getString("loggedInUserName", null);
+        LoginCredentials.mobileNumber = sharedPreferences.getString("loggedInUserMobileNumber", null);
+        LoginCredentials.email = sharedPreferences.getString("loggedInUserEmail", "");
+        if ((LoginCredentials.mobileNumber != null)){
+            loggedInUserMobileNumberTV.setText(LoginCredentials.mobileNumber);
+            loggedInUserNameTV.setText(LoginCredentials.name);
+            if (LoginCredentials.email != null){
+                getLoggedInUserEmailTV.setText(LoginCredentials.email);
             } else {
                 getLoggedInUserEmailTV.setText("");
             }
@@ -94,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("loggedInUserName", MainActivity.loggedInUserName);
-        editor.putString("loggedInUserMobileNumber", MainActivity.loggedInUserMobileNumber);
-        editor.putString("loggedInUserEmail", MainActivity.getLoggedInUserEmail);
+        editor.putString("loggedInUserName", LoginCredentials.name);
+        editor.putString("loggedInUserMobileNumber", LoginCredentials.mobileNumber);
+        editor.putString("loggedInUserEmail", LoginCredentials.email);
         editor.apply();
     }
 
@@ -129,29 +126,26 @@ public class MainActivity extends AppCompatActivity {
         loggedInUserMobileNumberTV  = navView.getHeaderView(0).findViewById(R.id.loginPhoneNumber);
         getLoggedInUserEmailTV = navView.getHeaderView(0).findViewById(R.id.loginEmail);
 
+
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 switch (itemId){
                     case R.id.navBarRequestsButton:
-                        Toast.makeText(getApplicationContext(),"Requests Clicked", Toast.LENGTH_SHORT).show();
+                        Intent i1 = new Intent(MainActivity.this, ComplaintHistoryActivity.class);
+                        startActivity(i1);
                         return true;
                     case R.id.navBarDonationsButton:
-                        Intent i = new Intent(MainActivity.this, DonationsHistoryActivity.class);
-                        startActivity(i);
+                        Intent i2 = new Intent(MainActivity.this, DonationsHistoryActivity.class);
+                        startActivity(i2);
                         return true;
                     case R.id.navBarAdoptButton:
                         Toast.makeText(getApplicationContext(),"Adopt Clicked", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.navBarLoginButton:
-                        if (MainActivity.loginButton.getTitle().toString().compareTo("LOGIN") == 0){
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        } else if (MainActivity.loginButton.getTitle().toString().compareTo("LOGOUT") == 0){
                             LogoutBottomSheetDialog bottomSheetDialog = new LogoutBottomSheetDialog();
                             bottomSheetDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
-                        }
                         return true;
                     case R.id.navBarShareButton:
                         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -176,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("SAW INDIA");
         toolbar.setLogo(R.drawable.logo_for_toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
+        final ActionBar actionbar = getSupportActionBar();
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_icon);
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setDisplayShowTitleEnabled(true);
@@ -210,17 +204,15 @@ public class MainActivity extends AppCompatActivity {
                             makeDonationButton.setClickable(false);
                             return true;
                         }
-                        Toast.makeText(getApplicationContext(), "Search Nearby button clicked", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.needHelpButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.needHelpButton) {
-                            fragmentManager.beginTransaction().hide(active).show(needHelpFragment).commit();
-                            active = needHelpFragment;
-                            makeDonationButton.setVisibility(View.INVISIBLE);
-                            makeDonationButton.setClickable(false);
+                                fragmentManager.beginTransaction().hide(active).show(needHelpFragment).commit();
+                                active = needHelpFragment;
+                                makeDonationButton.setVisibility(View.INVISIBLE);
+                                makeDonationButton.setClickable(false);
                             return true;
                         }
-                        Toast.makeText(getApplicationContext(), "Need Help button clicked", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.donateButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.donateButton) {
