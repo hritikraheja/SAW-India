@@ -28,24 +28,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.LinkedList;
 
-public class RecyclerViewAdapterForComplaintHistory extends RecyclerView.Adapter<RecyclerViewAdapterForComplaintHistory.RecyclerViewHolderForComplaintHistory> {
+class RecyclerViewAdapterForActiveComplaintActivity extends RecyclerView.Adapter<RecyclerViewAdapterForActiveComplaintActivity.RecyclerViewHolderForActiveComplaints> {
 
     LinkedList<Complaint> complaints;
 
-    public RecyclerViewAdapterForComplaintHistory(LinkedList<Complaint> complaints) {
+    public RecyclerViewAdapterForActiveComplaintActivity(LinkedList<Complaint> complaints) {
         this.complaints = complaints;
     }
 
     @NonNull
     @Override
-    public RecyclerViewHolderForComplaintHistory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerViewHolderForActiveComplaints onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.card_layout_for_complaints_history, parent, false);
-        return new RecyclerViewHolderForComplaintHistory(view);
+        return new RecyclerViewHolderForActiveComplaints(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolderForComplaintHistory holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewHolderForActiveComplaints holder, int position) {
         final Complaint complaint = complaints.get(position);
         try {
             Glide.with(holder.image).load(complaint.getImageUrl()).into(holder.image);
@@ -123,7 +123,7 @@ public class RecyclerViewAdapterForComplaintHistory extends RecyclerView.Adapter
         return complaints.size();
     }
 
-    static class RecyclerViewHolderForComplaintHistory extends RecyclerView.ViewHolder{
+    static class RecyclerViewHolderForActiveComplaints extends RecyclerView.ViewHolder{
 
         ImageView image;
         TextView statusTV;
@@ -133,7 +133,7 @@ public class RecyclerViewAdapterForComplaintHistory extends RecyclerView.Adapter
         TextView dateAndTimeTV;
         ConstraintLayout card;
 
-        public RecyclerViewHolderForComplaintHistory(@NonNull View itemView) {
+        public RecyclerViewHolderForActiveComplaints(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             statusTV = itemView.findViewById(R.id.statusTV);

@@ -32,8 +32,8 @@
                 android:title="RATE"
                 android:icon="@drawable/ic_rate_icon"
                 />
-            <item android:id="@+id/navBarDeveloperDetailsButton"
-                android:title="DEVELOPER DETAILS"
+            <item android:id="@+id/navBarSuggestButton"
+                android:title="SUGGEST"
                 android:icon="@drawable/ic_developer_details_icon"
                 />
         </menu>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F89B2A"
-    tools:context=".ComplaintHistoryActivity">
+    tools:context=".ActiveComplaintsActivity">
 
     <ImageView
         android:id="@+id/backButton"
@@ -46,7 +46,7 @@
             android:paddingHorizontal="30dp"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:text="Complaints History"
+            android:text="Active Complaints"
             android:textStyle="bold"
             android:textColor="#F89B2A"
             app:layout_constraintTop_toTopOf="parent"

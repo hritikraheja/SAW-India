@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         switch (itemId) {
             case R.id.complaints:
+                Intent intent = new Intent(MainActivity.this, ActiveComplaintsActivity.class);
+                startActivity(intent);
                 break;
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -158,8 +161,17 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navBarRateButton:
                         Toast.makeText(getApplicationContext(),"This will lead you to PlayStore download when the app is published", Toast.LENGTH_SHORT).show();
                         return true;
-                    case R.id.navBarDeveloperDetailsButton:
-                        Toast.makeText(getApplicationContext(),"Developer Details Clicked", Toast.LENGTH_SHORT).show();
+                    case R.id.navBarSuggestButton:
+                        try{
+                            Intent intent = new Intent(Intent.ACTION_SENDTO);
+                            intent.setData(Uri.parse("mailto:"));
+                            String[] to = new String[]{"hritikraheja27@gmail.com"};
+                            intent.putExtra(Intent.EXTRA_EMAIL, to);
+                            intent.putExtra(Intent.EXTRA_SUBJECT, "Suggestions");
+                            startActivity(Intent.createChooser(intent, "Send Email : "));
+                        } catch (Exception e){
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                         return true;
                 }
                 return false;
