@@ -31,7 +31,6 @@ import com.example.saw_india.modalClasses.LoginCredentials;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Objects;
 
 import static android.Manifest.permission.CAMERA;
 
@@ -49,7 +48,7 @@ public class NeedHelpFragment extends Fragment {
     ImageView captureButton;
     public static TextView captureText;
     Button submitButton;
-    CheckBox checkBox;
+    public static CheckBox checkBox;
     public static ImageView captureIcon;
     Uri imageUri;
 

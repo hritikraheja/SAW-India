@@ -7,17 +7,17 @@
     </group>
     <item android:title="PROFILE">
     <menu>
-        <item android:title="REQUESTS"
+        <item android:title="Requests"
             android:id="@+id/navBarRequestsButton"
             android:icon="@drawable/ic_requests"/>
-        <item android:title="DONATIONS"
+        <item android:title="Donations"
             android:icon="@drawable/ic_nav_bar_donations_icon"
             android:id="@+id/navBarDonationsButton" />
-        <item android:title="ADOPT A STRAY"
+        <item android:title="Unable To Get Help?"
             android:icon="@drawable/ic_adopt_icon"
-            android:id="@+id/navBarAdoptButton"/>
+            android:id="@+id/navBarRequestForShelterButton"/>
         <item android:id="@+id/navBarLoginButton"
-            android:title="LOGIN"
+            android:title="Logout"
             android:icon="@drawable/ic_login_icon"
             />
     </menu>
@@ -25,15 +25,15 @@
     <item android:title="COMMUNICATE">
         <menu>
             <item android:id="@+id/navBarShareButton"
-                android:title="SHARE"
+                android:title="Share"
                 android:icon="@drawable/ic_share_icon"
                 />
             <item android:id="@+id/navBarRateButton"
-                android:title="RATE"
+                android:title="Rate"
                 android:icon="@drawable/ic_rate_icon"
                 />
             <item android:id="@+id/navBarSuggestButton"
-                android:title="SUGGEST"
+                android:title="Contact Us"
                 android:icon="@drawable/ic_developer_details_icon"
                 />
         </menu>

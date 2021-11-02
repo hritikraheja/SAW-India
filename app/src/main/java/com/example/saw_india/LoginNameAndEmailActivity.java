@@ -2,7 +2,6 @@ package com.example.saw_india;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +39,6 @@ public class LoginNameAndEmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_name_and_email);
         Intent receivingIntent = getIntent();
         final String mobileNumber = receivingIntent.getStringExtra("mobileNumber");
-        String countryCode = receivingIntent.getStringExtra("countryCode");
         final UsersDatabaseHandler databaseHandler = new UsersDatabaseHandler();
         backButton = findViewById(R.id.backButton);
         nameEditText = findViewById(R.id.nameEditText);
@@ -79,9 +77,8 @@ public class LoginNameAndEmailActivity extends AppCompatActivity {
                             editor.putString("loggedInUserMobileNumber", LoginCredentials.mobileNumber);
                             editor.putString("loggedInUserEmail", LoginCredentials.email);
                             editor.apply();
-                            Intent i = new Intent(LoginNameAndEmailActivity.this, MainActivity.class);
-                            startActivity(i);
                             Toast.makeText(getApplicationContext(), "Logged in successfully.", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -89,7 +86,6 @@ public class LoginNameAndEmailActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                    finish();
                 }
             }
         });

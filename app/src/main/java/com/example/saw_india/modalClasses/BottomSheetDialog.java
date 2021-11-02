@@ -156,6 +156,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnMa
                                                 NeedHelpFragment.image.setImageDrawable(null);
                                                 NeedHelpFragment.captureText.setVisibility(View.VISIBLE);
                                                 NeedHelpFragment.captureIcon.setVisibility(View.VISIBLE);
+                                                NeedHelpFragment.checkBox.setChecked(false);
                                                 progressDialog.dismiss();
                                                 Toast.makeText(v.getContext(), "Complaint Registered Successfully", Toast.LENGTH_LONG).show();
                                             }
@@ -204,6 +205,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnMa
             animalLocationLng = address.getLongitude();
             googleMap.clear();
             googleMap.addMarker(new MarkerOptions().position(addressLocation).title("Animal's Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(animalLocationLat, animalLocationLng),15));
         }
     }
 

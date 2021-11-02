@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 getLoggedInUserEmailTV.setText("");
             }
             loggedInUserNameTV.setTextSize(15);
-            MainActivity.loginButton.setTitle("LOGOUT");
+            MainActivity.loginButton.setTitle("Logout");
         }
     }
 
@@ -102,9 +102,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finishAffinity();
+        if (bottomNavigationView.getSelectedItemId() == R.id.feedsButton){
+            finishAffinity();
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.feedsButton);
+        }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,8 +146,9 @@ public class MainActivity extends AppCompatActivity {
                         Intent i2 = new Intent(MainActivity.this, DonationsHistoryActivity.class);
                         startActivity(i2);
                         return true;
-                    case R.id.navBarAdoptButton:
-                        Toast.makeText(getApplicationContext(),"Adopt Clicked", Toast.LENGTH_SHORT).show();
+                    case R.id.navBarRequestForShelterButton:
+                        Intent i3 = new Intent(MainActivity.this, RequestForShelterActivity.class);
+                        startActivity(i3);
                         return true;
                     case R.id.navBarLoginButton:
                             LogoutBottomSheetDialog bottomSheetDialog = new LogoutBottomSheetDialog();
@@ -187,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setDisplayShowTitleEnabled(true);
         System.gc();
-
         fragmentManager.beginTransaction().add(R.id.frame, donateFragment, "4").hide(donateFragment).commit();
         fragmentManager.beginTransaction().add(R.id.frame, needHelpFragment, "3").hide(needHelpFragment).commit();
         fragmentManager.beginTransaction().add(R.id.frame, searchNearbyFragment, "2").hide(searchNearbyFragment).commit();
@@ -196,12 +199,13 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = findViewById(R.id.frame);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("ResourceType")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feedsButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.feedsButton) {
-                            fragmentManager.beginTransaction().hide(active).show(feedsFragment).commit();
+                            fragmentManager.beginTransaction().addToBackStack("WTF").hide(active).show(feedsFragment).commit();
                             active = feedsFragment;
                             makeDonationButton.setVisibility(View.INVISIBLE);
                             makeDonationButton.setClickable(false);
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.searchNearbyButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.searchNearbyButton) {
-                            fragmentManager.beginTransaction().hide(active).show(searchNearbyFragment).commit();
+                            fragmentManager.beginTransaction().addToBackStack("WTF").hide(active).show(searchNearbyFragment).commit();
                             active = searchNearbyFragment;
                             makeDonationButton.setVisibility(View.INVISIBLE);
                             makeDonationButton.setClickable(false);
@@ -219,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.needHelpButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.needHelpButton) {
-                                fragmentManager.beginTransaction().hide(active).show(needHelpFragment).commit();
+                                fragmentManager.beginTransaction().addToBackStack("WTF").hide(active).show(needHelpFragment).commit();
                                 active = needHelpFragment;
                                 makeDonationButton.setVisibility(View.INVISIBLE);
                                 makeDonationButton.setClickable(false);
@@ -228,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.donateButton:
                         if (bottomNavigationView.getSelectedItemId() != R.id.donateButton) {
-                            fragmentManager.beginTransaction().hide(active).show(donateFragment).commit();
+                            fragmentManager.beginTransaction().addToBackStack("WTF").hide(active).show(donateFragment).commit();
                             active = donateFragment;
                             makeDonationButton.setVisibility(View.VISIBLE);
                             makeDonationButton.setClickable(true);

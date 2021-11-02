@@ -7,18 +7,22 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.saw_india.modalClasses.LoginCredentials;
 
 public class SplashScreen extends AppCompatActivity {
     ImageView logo;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         logo = findViewById(R.id.logo);
+        title = findViewById(R.id.t1);
         SharedPreferences sharedPreferences = getSharedPreferences("loginDetails", MODE_PRIVATE);
         LoginCredentials.name = sharedPreferences.getString("loggedInUserName", null);
         LoginCredentials.mobileNumber = sharedPreferences.getString("loggedInUserMobileNumber", null);
@@ -37,6 +41,6 @@ public class SplashScreen extends AppCompatActivity {
                     finish();
                 }
             }
-        }, 2000);
+        }, 1000);
     }
 }

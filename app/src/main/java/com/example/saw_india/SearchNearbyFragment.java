@@ -268,9 +268,23 @@ public class SearchNearbyFragment extends Fragment{
                     lat = Double.parseDouble(obj.getJSONObject("geometry").getJSONObject("location").getString("lat"));
                     lng = Double.parseDouble(obj.getJSONObject("geometry").getJSONObject("location").getString("lng"));
                     placeId = obj.getString("place_id");
-                    AnimalShelter animalShelter = new AnimalShelter(name, lat, lng, address, "Not Available", 0);
+                    AnimalShelter animalShelter = new AnimalShelter(name, lat, lng, address, "Not Available", placeId, 0);
                     animalSheltersNearLocation.add(animalShelter);
-                    new GetPhoneNumberFromUrl().execute(placeId, String.valueOf(i));
+                    for (AnimalShelter a : animalSheltersNearLocation) {
+                        double shelterLatitude = a.getLat();
+                        double shelterLongitude = a.getLng();
+                        LatLng location = new LatLng(shelterLatitude, shelterLongitude);
+                        googleMap.addMarker(new MarkerOptions().position(location).title(a.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                        LatLng myLocation = new LatLng(myLat, myLng);
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.5f));
+                    }
+                    Collections.sort(animalSheltersNearLocation);
+                    recyclerView.setAdapter(new RecyclerViewAdapterForSearchNearbyFragment(animalSheltersNearLocation));
+                    loadingLayout.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    loadingLayout.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

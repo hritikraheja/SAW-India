@@ -7,12 +7,14 @@ public class AnimalShelter implements Comparable<AnimalShelter>{
     String address;
     String phoneNumber;
     int phoneNumberAvailableOrNot;
+    String placeId;
 
-    public AnimalShelter(String name, double lat, double lng, String address) {
+    public AnimalShelter(String name, double lat, double lng, String address, String placeId) {
         this.name = name;
         this.lat = lat;
         this.lng = lng;
         this.address = address;
+        this.placeId = placeId;
     }
 
     public void setPhoneNumberAvailableOrNot(int phoneNumberAvailableOrNot) {
@@ -24,13 +26,14 @@ public class AnimalShelter implements Comparable<AnimalShelter>{
         return "Name : " + name + ", Phone Number : " + phoneNumber + ", Address : " + address + "\n\n" ;
     }
 
-    public AnimalShelter(String name, double lat, double lng, String address, String phoneNumber, int phoneNumberAvailableOrNot) {
+    public AnimalShelter(String name, double lat, double lng, String address, String phoneNumber, String placeId, int phoneNumberAvailableOrNot) {
         this.name = name;
         this.lat = lat;
         this.lng = lng;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.phoneNumberAvailableOrNot = phoneNumberAvailableOrNot;
+        this.placeId = placeId;
     }
 
     public String getName() {
@@ -55,6 +58,10 @@ public class AnimalShelter implements Comparable<AnimalShelter>{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPlaceId() {
+        return placeId;
     }
 
     @Override

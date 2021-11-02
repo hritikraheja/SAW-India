@@ -5,13 +5,13 @@
         android:title="FEEDS"
         android:icon="@drawable/ic_feeds_icon"/>
     <item
-        android:id="@+id/searchNearbyButton"
-        android:title="NEARBY"
-        android:icon="@drawable/ic_search_nearby_icon"/>
-    <item
         android:id="@+id/needHelpButton"
         android:title="NEED HELP ?"
         android:icon="@drawable/ic_need_help_icon"/>
+    <item
+        android:id="@+id/searchNearbyButton"
+        android:title="NEARBY"
+        android:icon="@drawable/ic_search_nearby_icon"/>
     <item
         android:id="@+id/donateButton"
         android:title="DONATE"

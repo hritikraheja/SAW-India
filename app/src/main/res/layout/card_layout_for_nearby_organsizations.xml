@@ -34,20 +34,6 @@
         android:background="#FFF"
         app:layout_constraintTop_toBottomOf="@+id/shelterName" />
 
-
-    <TextView
-        android:id="@+id/shelterPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:text="Phone Number"
-        android:paddingTop="5dp"
-        android:textSize="15sp"
-        android:textColor="#FFF"
-        app:layout_constraintTop_toBottomOf="@+id/titleBottomLine"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
     <TextView
         android:id="@+id/shelterAdd"
         android:layout_width="match_parent"
@@ -60,7 +46,7 @@
         android:paddingTop="5dp"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shelterPhone"/>
+        app:layout_constraintTop_toBottomOf="@+id/shelterName"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

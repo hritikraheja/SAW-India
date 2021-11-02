@@ -214,10 +214,9 @@ public class OTPAuthenticationActivity extends AppCompatActivity {
                                     Log.d("Error", error.getMessage());
                                 }
                             });
-
-                            //Toast.makeText(OTPAuthenticationActivity.this, "OTP Verified", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(OTPAuthenticationActivity.this, "INVALID OTP", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });

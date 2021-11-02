@@ -9,15 +9,16 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/final_logo_saw"
         android:layout_marginTop="60dp"
-        android:layout_marginHorizontal="0dp"
+        android:layout_marginHorizontal="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
+        android:id="@+id/t1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SAW, INDIA"
@@ -27,7 +28,6 @@
         android:textStyle="italic|bold"
         android:textColor="#03188A"
         app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:layout_marginHorizontal="30dp"
-        />
+        android:layout_marginHorizontal="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
