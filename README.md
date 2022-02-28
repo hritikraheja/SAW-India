@@ -1,4 +1,5 @@
-# SAW-India
+# SAW-India 
+<img width="247" alt="final_logo_saw" src="https://user-images.githubusercontent.com/61345550/155947445-06b1a587-863a-4916-9262-e9e666c634ff.png">
 >SAW is the abbreviation of 'Stray Animal Welfare'. 
 As we all see the below listed things in our day to day life : 
 - Stray animals nearby houses often get hurt and need our help, but most of times, we are not able to do so. The only thing we can do is to put some food and water, and leave them for god’s help.
@@ -17,4 +18,3 @@ In order to release the pain of injured stray animals, I have created this appli
 
 
 
-<img width="247" alt="final_logo_saw" src="https://user-images.githubusercontent.com/61345550/155947445-06b1a587-863a-4916-9262-e9e666c634ff.png">
