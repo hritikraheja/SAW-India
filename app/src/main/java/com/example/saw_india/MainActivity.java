@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
     public static MenuItem loginButton;
     public static TextView loggedInUserNameTV;
     public static TextView loggedInUserMobileNumberTV;
-    public static TextView getLoggedInUserEmailTV;
+    public static TextView loggedInUserEmailTV;
+    ImageView editDetailsButton;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
             loggedInUserMobileNumberTV.setText(LoginCredentials.mobileNumber);
             loggedInUserNameTV.setText(LoginCredentials.name);
             if (LoginCredentials.email != null){
-                getLoggedInUserEmailTV.setText(LoginCredentials.email);
+                loggedInUserEmailTV.setText(LoginCredentials.email);
             } else {
-                getLoggedInUserEmailTV.setText("");
+                loggedInUserEmailTV.setVisibility(View.INVISIBLE);
             }
             loggedInUserNameTV.setTextSize(15);
             MainActivity.loginButton.setTitle("Logout");
@@ -130,8 +132,15 @@ public class MainActivity extends AppCompatActivity {
         loginButton = navView.getMenu().findItem(R.id.navBarLoginButton);
         loggedInUserNameTV = navView.getHeaderView(0).findViewById(R.id.loginName);
         loggedInUserMobileNumberTV  = navView.getHeaderView(0).findViewById(R.id.loginPhoneNumber);
-        getLoggedInUserEmailTV = navView.getHeaderView(0).findViewById(R.id.loginEmail);
-
+        loggedInUserEmailTV = navView.getHeaderView(0).findViewById(R.id.loginEmail);
+        editDetailsButton = navView.getHeaderView(0).findViewById(R.id.editDetailsButton);
+        editDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navBarShareButton:
                         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                         sharingIntent.setType("text/plain");
-                        String shareSub = "Saw India is working to make a single platform for all animal welfare organisations across the whole country. We will be delighted if you our services a try. No stray animal will be left to die without human care.";
+                        String shareSub = "Saw India is working to make a single platform for all animal welfare organisations across the whole country. We will be delighted if you give our services a try. No stray animal will be left to die without human care.";
                         String shareBody = "Download Now!!! \n " + shareSub;
                         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                         startActivity(Intent.createChooser(sharingIntent, "Share using"));

@@ -116,7 +116,7 @@ public class MakeADonationActivity extends AppCompatActivity implements PaymentR
                     amountInString = amountEditText.getText().toString();
                     int amount = Math.round(Float.parseFloat(amountInString) * 100);
                     Checkout checkout = new Checkout();
-                    checkout.setKeyID("rzp_test_iifDyEQ5Tenyca");
+                    checkout.setKeyID(getString(R.string.RAZORPAY_API_KEY));
                     checkout.setImage(R.drawable.final_logo_saw);
                     JSONObject object = new JSONObject();
                     try {

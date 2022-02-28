@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,11 +15,9 @@ import androidx.annotation.RequiresApi;
 
 import com.example.saw_india.modalClasses.SliderAdapter;
 import com.example.saw_india.modalClasses.SliderImage;
-import com.razorpay.Checkout;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -48,7 +43,6 @@ public class DonationsFragment extends Fragment {
         sliderView.setScrollTimeInSec(3);
         sliderView.setAutoCycle(true);
         sliderView.startAutoCycle();
-        LinkedList<SliderImage> l = new LinkedList<>();
         return view;
     }
 

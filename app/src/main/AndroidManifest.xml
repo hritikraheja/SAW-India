@@ -27,14 +27,23 @@
         android:roundIcon="@drawable/final_logo_saw"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".RequestForShelterActivity"></activity>
-        <activity android:name=".ActiveComplaintsActivity" />
-        <activity android:name=".ComplaintHistoryActivity" />
-        <activity android:name=".DonationsHistoryActivity" />
-        <activity android:name=".LoginNameAndEmailActivity" />
-        <activity android:name=".OTPAuthenticationActivity" />
+        <activity android:name=".RequestForShelterActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ActiveComplaintsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ComplaintHistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DonationsHistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginNameAndEmailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OTPAuthenticationActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MakeADonationActivity" />
+        <activity android:name=".MakeADonationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EditProfileActivity"
+            android:screenOrientation="portrait"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -53,7 +62,8 @@
         <activity
             android:name=".VideoPlayerActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,7 +72,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

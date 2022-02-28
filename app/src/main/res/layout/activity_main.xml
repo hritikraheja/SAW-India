@@ -78,7 +78,7 @@
        android:layout_gravity="start"
        app:itemTextColor="@drawable/icon_tint"
        app:itemIconTint="@drawable/icon_tint"
-       app:headerLayout="@layout/navigation_drawer_logged_in_header"
+       app:headerLayout="@layout/navigation_drawer_header"
        app:menu="@menu/navigation_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
