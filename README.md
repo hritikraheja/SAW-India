@@ -14,3 +14,7 @@ In order to release the pain of injured stray animals, I have created this appli
 - The animal helper will open his app(which is different from the user’s app), and will reach the location, just like swiggy/zomato delivery partners reaching our homes.
 - This app will also contains feeds that will contain videos and photos of animal that will be helped at that time , this would create awareness among the people.
 - The app will also have a payment gateway, which will pave the way for donations that will be very much helpful for the organizations.
+
+
+
+<img width="247" alt="final_logo_saw" src="https://user-images.githubusercontent.com/61345550/155947445-06b1a587-863a-4916-9262-e9e666c634ff.png">
