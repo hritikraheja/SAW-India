@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">SAW, India</string>
-    <string name="YOUTUBE_API_KEY">AIzaSyA7o2v0Htv3tWyMKOOYowAOWCV_2WSLwF4</string>
-    <string name="GOOGLE_PLACES_API_KEY">AIzaSyCLnRVNBsMR4SRKJ9PeMmHPOPK_7fp8Em4</string>
-    <string name="RAZORPAY_API_KEY">rzp_test_iifDyEQ5Tenyca</string>
+    <string name="YOUTUBE_API_KEY">YOUR_API_KEY</string>
+    <string name="GOOGLE_PLACES_API_KEY">YOUR_API_KEY</string>
+    <string name="RAZORPAY_API_KEY">YOUR_API_KEY</string>
     <string name="title_activity_maps">Map</string>
     <string name="resend_otp"><u>RESEND OTP</u></string>
     <string name="formatted_app_name"><font color = "#F89B2A">S</font>tray <font color = "#F89B2A">A</font>nimal <font color = "#F89B2A">W</font>elfare,</string>
