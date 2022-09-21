@@ -52,7 +52,7 @@ public class DonationsFragment extends Fragment {
         protected String doInBackground(String... string) {
             String result = null;
             try {
-                URL url = new URL("https://hritikraheja1.github.io/sliderImages.json");
+                URL url = new URL("https://hritikraheja.github.io/SawIndiaStaticFiles/sliderImages.json");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
